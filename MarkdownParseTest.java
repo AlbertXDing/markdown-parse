@@ -71,59 +71,43 @@
 
 import static org.junit.Assert.*;
 import org.junit.*;
-
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.List;
+import java.util.ArrayList;
 
 public class MarkdownParseTest {
 
     @Test
-    public void testFile1() throws IOException {
-        String contents= Files.readString(Path.of("./test-file.md"));
-        List<String> expect = List.of("https://something.com", "some-page.html");
-        assertEquals(MarkdownParse.getLinks(contents), expect);
+    public void snippet1() throws IOException{
+        Path fileName = Path.of("s1.md");
+	    String contents = Files.readString(fileName);
+        ArrayList<String> links = MarkdownParse.getLinks(contents);
+        ArrayList<String> expected = new ArrayList<>();
+        expected.add("`google.com");
+        expected.add("google.com");
+        expected.add("ucsd.edu");
+        assertEquals(expected, links);
     }
 
     @Test
-    public void testFile2() throws IOException {
-        String contents= Files.readString(Path.of("./test-file2.md"));
-        List<String> expect = List.of("https://something.com", "some-page.html");
-        assertEquals(MarkdownParse.getLinks(contents), expect);
+    public void snippet2() throws IOException{
+        Path fileName = Path.of("s2.md");
+	    String contents = Files.readString(fileName);
+        ArrayList<String> links = MarkdownParse.getLinks(contents);
+        ArrayList<String> expected = new ArrayList<>();
+        expected.add("a.com(())");
+        expected.add("example.com");
+        assertEquals(expected, links);
     }
 
     @Test
-    public void testSingleImage() throws IOException {
-        String contents= Files.readString(Path.of("./test-single-image.md"));
-        List<String> expect = List.of();
-        assertEquals(MarkdownParse.getLinks(contents), expect);
-    }
-
-    @Test
-    public void testLinkAtBeginning() {
-        String contents= "[link title](a.com)";
-        List<String> expect = List.of("a.com");
-        assertEquals(MarkdownParse.getLinks(contents), expect);
-    }
-
-    @Test
-    public void testSpaceInURL() {
-        String contents = "[title](space in-url.com)";
-        List<String> expect = List.of();
-        assertEquals(MarkdownParse.getLinks(contents), expect);
-    }
-    @Test
-    public void testSpaceAfterParen() {
-        String contents = "[title]( space-in-url.com)";
-        List<String> expect = List.of("space-in-url.com");
-        assertEquals(expect, MarkdownParse.getLinks(contents));
-    }
-    @Test
-    public void testSpaceBeforeParen() {
-        String contents = "[title]   (should-not-count.com)";
-        List<String> expect = List.of();
-        assertEquals(MarkdownParse.getLinks(contents), expect);
+    public void snippet3() throws IOException{
+        Path fileName = Path.of("s3.md");
+	    String contents = Files.readString(fileName);
+        ArrayList<String> links = MarkdownParse.getLinks(contents);
+        ArrayList<String> expected = new ArrayList<>();
+        assertEquals(expected, links);
     }
     
 }
